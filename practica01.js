@@ -24,7 +24,7 @@ function datosPlazoFijoTradicional() {
   let duracion = parseInt(prompt(`Cuantos meses`));
   let totalPFT = montoInicial * (1 + (porcentaje / 12 / 100) * duracion);
   console.log(
-    `Ustedes inicia con ${montoInicial} con un interes de ${porcentaje} por el tiempo de ${duracion} mes/es teniendo ${totalPFT} al final de ese plazo`
+    `Ustedes inicia con $${montoInicial} con un interes de ${porcentaje}% por el tiempo de ${duracion} mes/es teniendo $${totalPFT} al final de ese plazo`
   );
 }
 /* funcion para pedir datos del plazo fijo compuesto y calcular. */
@@ -42,7 +42,9 @@ function datosInteresCompuesto() {
   for (let i = 0; i < numeroPeriodos; i++) {
     montoFinal *= 1 + tasaInteresMesual / 100 / 12;
   }
-  console.log("El monto final es:", montoFinal);
+  console.log(
+    `El monto final es:$${montoFinal} al reinvertir en ${numeroPeriodos} periodos.`
+  );
 }
 
 /* Instrucciones de datos a ingresar */
