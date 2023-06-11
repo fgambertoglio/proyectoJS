@@ -1,78 +1,76 @@
-// let montoInicial = parseInt(prompt("Ingrese capital inicial"));
-// let interes = parseInt(prompt("Ingrese interes anualizado"));
-// let interesMensual = interes / 12;
-// let cantidadDeMeses = parseInt(prompt("Ingrese cantidad de meses"));
-// let interesCalculo = interesMensual / 100;
-// let montoFinal1 =
-//   montoInicial * interesCalculo * cantidadDeMeses + montoInicial;
-
-// console.log(montoFinal1);
-// alert(`El interes mas capital inicial recibido es: $ ${montoFinal1}`);
-
-// let continuar = prompt(
-//   "Desea ver el interes compuesto repitiendo el plazo agregando lo ganado. Responda con si o no"
-// );
-// if (continuar.toLowerCase() == "si") {
-//   console.log(montoFinal1 * interesCalculo * cantidadDeMeses);
-//   alert(montoFinal1 * interesCalculo * cantidadDeMeses + montoFinal1);
-// } else {
-//   console.log("Gracias por su visita");
-//   alert("Gracias por su visita");
-// }
-
-/* 
-function pedirNombre() {
-  let nombreCliente = prompt("Ingrese su nombre");
-  saludarCliente(nombreCliente);
+/* Saludo */
+function saludar() {
+  let pedirNombre = prompt(`Ingrese su nombre.`);
+  console.log(pedirNombre);
+  alert(`Bienvenido ${pedirNombre}`);
+  return pedirNombre;
 }
-function saludarCliente(nombre) {
-  alert(`Bienvenido ${nombre} al simulador de plazo fijo`);
+/*  funcion para pedir datos del plazo fijo tradicional y calcular. */
+function datosPlazoFijoTradicional() {
+  let montoInicial = parseInt(prompt(`Ingresa el capital inicial:`));
+  let porcentaje = parseInt(prompt(`Ingresa la tasa de interés anual:`));
+  let duracion = parseInt(prompt(`Cuantos meses`));
+  let totalPFT = montoInicial * (1 + (porcentaje / 12 / 100) * duracion);
+  console.log(
+    `Ustedes inicia con ${montoInicial} con un interes de ${porcentaje} por el tiempo de ${duracion} mes/es teniendo ${totalPFT} al final de ese plazo`
+  );
 }
+/* funcion para pedir datos del plazo fijo compuesto y calcular. */
+function datosInteresCompuesto() {
+  let capitalInicial = parseFloat(prompt("Ingresa el capital inicial:"));
+  let tasaInteresMesual = parseFloat(
+    prompt("Ingresa la tasa de interés anual:")
+  );
+  let numeroPeriodos = parseInt(
+    prompt("Ingresa el número de que se renovaria el plazo:")
+  );
 
-pedirNombre();
+  let montoFinal = capitalInicial;
 
-let capitalInicial = parseInt(prompt("Ingrese capital inicial"));
-let interes = parseInt(prompt("Ingrese interes anualizado"));
-let cantidadMeses = parseInt(prompt("Ingrese cantidad de meses"));
-let montoFinal = capitalInicial * (1 + (interes / 12 / 100) * cantidadMeses);
-alert(`Al final de ese periodo ustedes tendria $ ${montoFinal}`);
-
-let montoFinal2 = montoFinal * (1 + (interes / 12 / 100) * cantidadMeses);
-let continuar = prompt(
-  "Desea ver el interes compuesto repitiendo el plazo. Responda con si o no"
-);
-if (continuar.toLowerCase() == "si") {
-  console.log(montoFinal2);
-  alert(montoFinal2);
-} else {
-  console.log(`Gracias por su visita`);
-  alert(`Gracias por su visita`);
-}
- */
-
-function calculoInteres(capitalInicial, interes, cantidadMeses) {
-  let montoFinal = capitalInicial * (1 + (interes / 12 / 100) * cantidadMeses);
-  alert(`Al final de ese periodo ustedes tendria $ ${montoFinal}`);
-  return montoFinal;
+  for (let i = 0; i < numeroPeriodos; i++) {
+    montoFinal *= 1 + tasaInteresMesual / 100 / 12;
+  }
+  console.log("El monto final es:", montoFinal);
 }
 
-function interesCompuesto(total, interes, cantidadMeses) {
-  let montoFinal2 = total * (1 + (interes / 12 / 100) * cantidadMeses);
-  alert(`Y al final del segundo periodo ustedes tendria $ ${montoFinal2}`);
-  return montoFinal2;
+/* Instrucciones de datos a ingresar */
+function instrucciones() {
+  alert(`Se le pedira los siguientes datos:
+~ Monto inicial es el monto que invierte.
+~ Porcentaje es cuanto le dan a usted anualmente por ese monto
+~ Meses es el tiempo que pasara hasta que se libere el plazo y tenga su ganancia`);
 }
-
-let capitalInicial = parseInt(prompt("Ingrese capital inicial"));
-console.log(capitalInicial);
-
-let interes = parseInt(prompt("Ingrese interes anualizado"));
-console.log(interes);
-
-let cantidadMeses = parseInt(prompt("Ingrese cantidad de meses"));
-console.log(cantidadMeses);
-
-let total = calculoInteres(capitalInicial, interes, cantidadMeses);
-console.log(total);
-
-let montoFinal2 = interesCompuesto(total, interes, cantidadMeses);
-console.log(montoFinal2);
+/* ejecutar saludo */
+let pedirNombre = saludar();
+/* Menu */
+let salir = false;
+do {
+  let opcionIngresada = parseInt(
+    prompt(`Elija una opcion para continuar
+  1 - Plazo fijo tradicional
+  2 - Plazo fijo compuesto
+  3 - instrucciones
+  0 - Salir`)
+  );
+  switch (opcionIngresada) {
+    case 1:
+      datosPlazoFijoTradicional();
+      console.log(`Gracias por su visita ${pedirNombre}.`);
+      salir = true;
+      break;
+    case 2:
+      datosInteresCompuesto();
+      console.log(`Gracias por su visita ${pedirNombre}.`);
+      salir = true;
+      break;
+    case 3:
+      instrucciones();
+      break;
+    case 0:
+      console.log(`Gracias por su visita ${pedirNombre}.`);
+      salir = true;
+      break;
+    default:
+      console.log(`Opción no válida, ingrese alguna presente en el menu`);
+  }
+} while (!salir);
