@@ -5,6 +5,18 @@ function saludar() {
   alert(`Bienvenido ${pedirNombre}`);
   return pedirNombre;
 }
+function perfil() {
+  let tiempo = parseInt(
+    prompt(`Ingrese meses estimados en el que no retiraria la inversion.`)
+  );
+  if (tiempo < 2) {
+    console.log(`Mire la seccion de Plazo Fijo Tradicional`);
+  } else if (tiempo >= 2 && tiempo < 6) {
+    console.log(`Mire la seccion de Plazo Fijo Compuesto.`);
+  } else if (tiempo >= 7) {
+    console.log(`Compre dolares o otra moneda estable.`);
+  }
+}
 /*  funcion para pedir datos del plazo fijo tradicional y calcular. */
 function datosPlazoFijoTradicional() {
   let montoInicial = parseInt(prompt(`Ingresa el capital inicial:`));
@@ -42,6 +54,8 @@ function instrucciones() {
 }
 /* ejecutar saludo */
 let pedirNombre = saludar();
+/* Perfil del usuario */
+perfil();
 /* Menu */
 let salir = false;
 do {
