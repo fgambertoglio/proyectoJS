@@ -5,6 +5,7 @@ function saludar() {
   alert(`Bienvenido ${pedirNombre}`);
   return pedirNombre;
 }
+/* Uso de if para aconsejar al usuario que elegir */
 function perfil() {
   let tiempo = parseInt(
     prompt(`Ingrese meses estimados en el que no retiraria la inversion.`)
@@ -17,17 +18,17 @@ function perfil() {
     console.log(`Compre dolares o otra moneda estable.`);
   }
 }
-/*  funcion para pedir datos del plazo fijo tradicional y calcular. */
+/*  Pido datos del plazo fijo tradicional y calcular. */
 function datosPlazoFijoTradicional() {
   let montoInicial = parseInt(prompt(`Ingresa el capital inicial:`));
   let porcentaje = parseInt(prompt(`Ingresa la tasa de interés anual:`));
-  let duracion = parseInt(prompt(`Cuantos meses`));
+  let duracion = parseInt(prompt(`Cuantos meses:`));
   let totalPFT = montoInicial * (1 + (porcentaje / 12 / 100) * duracion);
   console.log(
     `Ustedes inicia con $${montoInicial} con un interes de ${porcentaje}% por el tiempo de ${duracion} mes/es teniendo $${totalPFT} al final de ese plazo`
   );
 }
-/* funcion para pedir datos del plazo fijo compuesto y calcular. */
+/* Pido datos del plazo fijo compuesto y calcular. */
 function datosInteresCompuesto() {
   let capitalInicial = parseFloat(prompt("Ingresa el capital inicial:"));
   let tasaInteresMesual = parseFloat(
@@ -52,7 +53,8 @@ function instrucciones() {
   alert(`Se le pedira los siguientes datos:
 ~ Monto inicial es el monto que invierte.
 ~ Porcentaje es cuanto le dan a usted anualmente por ese monto
-~ Meses es el tiempo que pasara hasta que se libere el plazo y tenga su ganancia`);
+~ Meses es el tiempo que pasara hasta que se libere el plazo y tenga su ganancia
+~ Plazo Fijo Compuesto lo que hace es reinvertir mes a mes el monto inicial mas los intereses ganados.`);
 }
 /* ejecutar saludo */
 let pedirNombre = saludar();
@@ -65,7 +67,7 @@ do {
     prompt(`Elija una opcion para continuar
   1 - Plazo fijo tradicional
   2 - Plazo fijo compuesto
-  3 - instrucciones
+  3 - Informacion
   0 - Salir`)
   );
   switch (opcionIngresada) {
