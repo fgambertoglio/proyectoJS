@@ -72,9 +72,8 @@ let botonDarkMode = document.getElementById("botonDarkMode");
 let coincidencia = document.getElementById("coincidencia");
 let buscador = document.getElementById("buscador");
 let botonLightMode = document.getElementById("botonLightMode");
-let btnVerLista = document.getElementById(`verLista`);
-let btnOcultarLista = document.getElementById(`ocultarLista`);
-let imprimirLista = document.getElementById(`lista`);
+let btnVerLista = document.getElementById(`listaNav`);
+let imprimirLista = document.getElementById(`modal-bodyCarrito`);
 /* FUNCIONES */
 
 // -------mostrar la array en DOM -----
@@ -118,20 +117,6 @@ function agregarALista(pelicula) {
   } else {
     alert(`${pelicula.nombreP} ya se encuentra en la lista`);
   }
-}
-
-function verPeliculasLista(array) {
-  array.forEach((Listapeliculas) => {
-    modalBodyLista.innerHTML = `<div id="${Listapeliculas.idP}" class="card" style="width: 18rem;">
-                               
-                            <div class="card-body">
-                               <h4 class="card-title">Titulo:${Listapeliculas.nombreP}</h4>
-                               <p>Genero: ${Listapeliculas.generoP}</p>
-                              <p class="">Puntaje IMDb: ${Listapeliculas.puntajeP}</p>
-                            <button id="agregarALista${Listapeliculas.idP}" class="btn btn-outline-success">Eliminar de la lista</button>
-                             </div>
-                          </div>`;
-  });
 }
 
 verCatalogo.addEventListener("click", () => {
@@ -207,18 +192,41 @@ function agregarPelicula(array) {
   let nombreI = document.getElementById("tituloInput");
   let generoI = document.getElementById("generoInput");
   let puntajeI = document.getElementById("puntajeInput");
-  const peliculaNueva = new pelicula(
-    array.length + 1,
-    nombreI.value,
-    generoI.value,
-    puntajeI.value
-  );
-  array.push(peliculaNueva);
-  localStorage.setItem("catalogo", JSON.stringify(array));
-  nombreI.value = "";
-  generoI.value = "";
-  puntajeI.value = "";
-  mostrarCatalogo(catalogo);
+
+  // Obtener el contenido de los campos de entrada y eliminar espacios en blanco
+  let titulo = nombreI.value.trim();
+  let genero = generoI.value.trim();
+  let puntaje = puntajeI.value.trim();
+
+  // Validar que los campos no estén vacíos
+  if (titulo !== "" && genero !== "" && puntaje !== "") {
+    // Crear la nueva película
+    const peliculaNueva = new pelicula(
+      array.length + 1,
+      titulo,
+      genero,
+      puntaje
+    );
+
+    // Agregar la película al catálogo
+    array.push(peliculaNueva);
+
+    // Actualizar el catálogo en el localStorage
+    localStorage.setItem("catalogo", JSON.stringify(array));
+
+    // Limpiar los campos de entrada
+    nombreI.value = "";
+    generoI.value = "";
+    puntajeI.value = "";
+
+    // Mostrar el catálogo actualizado
+    mostrarCatalogo(catalogo);
+  } else {
+    // Mostrar mensaje de error si algún campo está vacío
+    alert(
+      "Por favor, complete todos los campos antes de agregar una nueva película."
+    );
+  }
 }
 
 /* captura de botones dark/light */
@@ -298,10 +306,41 @@ buscador.addEventListener("input", () => {
 /* Ver Lista */
 
 btnVerLista.addEventListener("click", () => {
-  mostrarCatalogo(lista);
+  verPeliculasLista(lista);
+  console.log(`ver lista funciona`);
 });
-/* ocultar Lista */
+/* FUNCION VER Y ELIMINAR LISTA PENDIENTES */
+function verPeliculasLista(array) {
+  imprimirLista.innerHTML = ``;
+  array.forEach((listaPeliculas) => {
+    imprimirLista.innerHTML += `<div id="cardLista${listaPeliculas.idP}" class="card" style="width: 18rem;">
+                               
+                                <h4 class="card-title">${listaPeliculas.nombreP}</h4>
+                               <p>Genero: ${listaPeliculas.generoP}</p>
+                              <p class="">Puntaje IMDb: ${listaPeliculas.puntajeP}</p>
+                            <button id="btnEliminar${listaPeliculas.idP}" class="btn btn-outline-success">Eliminar de la lista</button>
+                             </div>
+                          </div>`;
+  });
 
-btnOcultarLista.addEventListener("click", () => {
-  peliculaDiv.innerHTML = ``;
-});
+  array.forEach((listaPeliculas) => {
+    document
+      .getElementById(`btnEliminar${listaPeliculas.idP}`)
+      .addEventListener(`click`, () => {
+        console.log(`eliminar pelicula`);
+        let cardPelicula = document.getElementById(
+          `cardLista${listaPeliculas.idP}`
+        );
+        cardPelicula.remove();
+        let peliculaEliminar = array.find(
+          (pelicula) => pelicula.idP == listaPeliculas.idP
+        );
+        console.log(peliculaEliminar);
+        let posicion = array.indexOf(peliculaEliminar);
+        console.log(posicion);
+        array.splice(posicion, 1);
+        console.log(array);
+        localStorage.setItem(`lista`, JSON.stringify(array));
+      });
+  });
+}
